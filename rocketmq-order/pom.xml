@@ -49,6 +49,7 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!-- dubbo -->
+        <!--
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
@@ -59,7 +60,9 @@
             <artifactId>dubbo-spring-boot-actuator</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
+         -->
     </dependencies>
+
 
     <build>
         <finalName>rocketmq-order</finalName>
