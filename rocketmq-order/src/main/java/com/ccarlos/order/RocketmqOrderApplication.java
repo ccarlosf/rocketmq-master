@@ -1,14 +1,14 @@
-package com.ccarlos.store;
+package com.ccarlos.order;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class RocketmqOrderApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(RocketmqOrderApplication.class, args);
 
     }
 

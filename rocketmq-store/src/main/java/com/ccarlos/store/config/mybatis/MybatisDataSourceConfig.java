@@ -1,4 +1,4 @@
-package com.ccarlos.order.config.mybatis;
+package com.ccarlos.store.config.mybatis;
 
 import javax.sql.DataSource;
 
@@ -24,7 +24,7 @@ public class MybatisDataSourceConfig {
 		// 添加XML目录
 		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		try {
-			bean.setMapperLocations(resolver.getResources("classpath:com.ccarlos.order.mapping.*.xml"));
+			bean.setMapperLocations(resolver.getResources("classpath:com.ccarlos.store.mapping.*.xml"));
 			SqlSessionFactory sqlSessionFactory = bean.getObject();
 			sqlSessionFactory.getConfiguration().setCacheEnabled(Boolean.TRUE);
 			

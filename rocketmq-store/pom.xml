@@ -83,7 +83,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ccarlos.store.Application</mainClass>
+                    <mainClass>com.ccarlos.store.RocketmqStoreApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
