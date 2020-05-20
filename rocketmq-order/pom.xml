@@ -59,6 +59,13 @@
             <artifactId>dubbo-spring-boot-actuator</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.ccarlos</groupId>
+            <artifactId>rocketmq-store-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 
@@ -84,7 +91,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ccarlos.order.RocketmqOrderApplication</mainClass>
+                    <mainClass>com.ccarlos.order.OrderApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

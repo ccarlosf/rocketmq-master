@@ -4,11 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RocketmqOrderApplication {
+public class OrderApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(RocketmqOrderApplication.class, args);
+        SpringApplication.run(OrderApplication.class, args);
 
     }
 
