@@ -6,6 +6,9 @@
         <module>rocketmq-order</module>
         <module>rocketmq-store</module>
         <module>rocketmq-store-api</module>
+        <module>rocketmq-paya</module>
+        <module>rocketmq-payb</module>
+        <module>rocketmq-pkg</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
