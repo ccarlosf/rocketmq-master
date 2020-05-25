@@ -1,5 +1,6 @@
 package com.ccarlos.order.web;
 
+import com.ccarlos.order.service.OrderService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OrderController {
 
-//	@Autowired
-//	private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
     //	超时降级
 //	@HystrixCommand(
@@ -42,16 +43,16 @@ public class OrderController {
 
     //	限流策略：信号量方式
 
-    @HystrixCommand(
-            commandKey = "createOrder",
-            commandProperties = {
-                    @HystrixProperty
-                            (name = "execution.isolation.strategy", value = "SEMAPHORE"),
-                    @HystrixProperty
-                            (name = "execution.isolation.semaphore.maxConcurrentRequests", value = "3")
-            },
-            fallbackMethod = "createOrderFallbackMethod4semaphore"
-    )
+    //    @HystrixCommand(
+//            commandKey = "createOrder",
+//            commandProperties = {
+//                    @HystrixProperty
+//                            (name = "execution.isolation.strategy", value = "SEMAPHORE"),
+//                    @HystrixProperty
+//                            (name = "execution.isolation.semaphore.maxConcurrentRequests", value = "3")
+//            },
+//            fallbackMethod = "createOrderFallbackMethod4semaphore"
+//    )
     // http://localhost:8001/createOrder?cityId=123&platformId=123&userId=123&suppliedId=123&goodsId=213&supplierId=2311
     @RequestMapping("/createOrder")
     public String createOrder(@RequestParam("cityId") String cityId,
@@ -61,10 +62,10 @@ public class OrderController {
                               @RequestParam("goodsId") String goodsId) throws Exception {
 
 //        Thread.sleep(5000);
-        return "下单成功!";
+//        return "下单成功!";
 
-//		return orderService.createOrder
-//				(cityId, platformId, userId, supplierId, goodsId) ? "下单成功!" : "下单失败!";
+        return orderService.createOrder
+                (cityId, platformId, userId, supplierId, goodsId) ? "下单成功!" : "下单失败!";
     }
 
     public String createOrderFallbackMethod4Timeout(@RequestParam("cityId") String cityId,
