@@ -27,6 +27,8 @@ public class TransactionProducer {
                     }
                 });
         producer.setNamesrvAddr(Const.NAMESRV_ADDR_MASTER_SLAVE);
+        // 手动设置超时时间 非常重要
+        producer.setSendMsgTimeout(10000);
         producer.setExecutorService(executorService);
 
         // 这个对象主要做两件事情 第一件事情就是异步地执行本地事务 第二件事情就是做回查
