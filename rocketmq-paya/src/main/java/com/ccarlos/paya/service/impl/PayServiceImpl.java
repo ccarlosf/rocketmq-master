@@ -30,9 +30,9 @@ public class PayServiceImpl implements PayService {
 	@Autowired
 	private CustomerAccountMapper customerAccountMapper;
 
-
 	@Autowired
 	private TransactionProducer transactionProducer;
+
 	@Autowired
 	private CallbackService callbackService;
 
@@ -78,10 +78,12 @@ public class PayServiceImpl implements PayService {
 				params.put("newBalance", newBalance);
 				params.put("currentVersion", currentVersion);
 
-
+			} else {
+				paymentRet = "余额不足!";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			paymentRet = "支付失败!";
 		}
 		return paymentRet;
 	}
