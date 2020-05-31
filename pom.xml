@@ -9,6 +9,7 @@
         <module>rocketmq-paya</module>
         <module>rocketmq-payb</module>
         <module>rocketmq-pkg</module>
+        <module>rocketmq-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
