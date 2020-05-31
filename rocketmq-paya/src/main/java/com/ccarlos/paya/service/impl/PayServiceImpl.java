@@ -24,28 +24,28 @@ import com.ccarlos.paya.utils.FastJsonConvertUtil;
 public class PayServiceImpl implements PayService {
 
 	public static final String TX_PAY_TOPIC = "tx_pay_topic";
-	
+
 	public static final String TX_PAY_TAGS = "pay";
-	
+
 	@Autowired
 	private CustomerAccountMapper customerAccountMapper;
-	
+
 	@Autowired
 	private TransactionProducer transactionProducer;
-	
+
 	@Autowired
 	private CallbackService callbackService;
-	
+
 	@Override
 	public String payment(String userId, String orderId, String accountId, double money) {
 		String paymentRet = "";
 		try {
 			//	最开始有一步 token验证操作（重复提单问题）
-			
+
 			BigDecimal payMoney = new BigDecimal(money);
-			
+
 			//加锁开始（获取）
-			
+
 			CustomerAccount old = customerAccountMapper.selectByPrimaryKey(accountId);
 			BigDecimal currentBalance = old.getCurrentBalance();
 			int currentVersion = old.getVersion();
@@ -57,10 +57,10 @@ public class PayServiceImpl implements PayService {
 			//2 数据库乐观锁去重
 			//	做扣款操作的时候：获得分布式锁，看一下能否获得
 			BigDecimal newBalance = currentBalance.subtract(payMoney);
-			
+
 			//加锁结束（释放）
-			
-			if(newBalance.doubleValue() > 0 ) {	//	或者一种情况获取锁失败
+
+			if(newBalance.doubleValue() > 0 ) {    //	或者一种情况获取锁失败
 				//	1.组装消息
 				//  1.执行本地事务
 				String keys = UUID.randomUUID().toString() + "$" + System.currentTimeMillis();
@@ -68,36 +68,15 @@ public class PayServiceImpl implements PayService {
 				params.put("userId", userId);
 				params.put("orderId", orderId);
 				params.put("accountId", accountId);
-				params.put("money", money);	//100
-				
-				Message message = new Message(TX_PAY_TOPIC, TX_PAY_TAGS, keys, FastJsonConvertUtil.convertObjectToJSON(params).getBytes());
-				//	可能需要用到的参数
-				params.put("payMoney", payMoney);
-				params.put("newBalance", newBalance);
-				params.put("currentVersion", currentVersion);
-				
-				//	同步阻塞
-				CountDownLatch countDownLatch = new CountDownLatch(1);
-				params.put("currentCountDown", countDownLatch);
-				//	消息发送并且 本地的事务执行
-				TransactionSendResult sendResult = transactionProducer.sendMessage(message, params);
-			
-				countDownLatch.await();
-				
-				if(sendResult.getSendStatus() == SendStatus.SEND_OK 
-						&& sendResult.getLocalTransactionState() == LocalTransactionState.COMMIT_MESSAGE) {
-					//	回调order通知支付成功消息
-					callbackService.sendOKMessage(orderId, userId);
-					paymentRet = "支付成功!";
-				} else {
-					paymentRet = "支付失败!";
-				}
-			} else {
-				paymentRet = "余额不足!";
+				params.put("money", money);    //100
+
+				Message message = new Message
+						(TX_PAY_TOPIC, TX_PAY_TAGS, keys,
+								FastJsonConvertUtil.convertObjectToJSON(params).getBytes());
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			paymentRet = "支付失败!";
 		}
 		return paymentRet;
 	}
