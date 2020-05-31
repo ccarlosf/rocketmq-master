@@ -38,12 +38,15 @@ public class TransactionListenerImpl implements TransactionListener {
 			int count = this.customerAccountMapper.updateBalance(accountId, newBalance,
 					currentVersion, currentTime);
 			if(count == 1) {
+				currentCountDown.countDown();
 				return LocalTransactionState.COMMIT_MESSAGE;
 			} else {
+				currentCountDown.countDown();
 				return LocalTransactionState.ROLLBACK_MESSAGE;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			currentCountDown.countDown();
 			return LocalTransactionState.ROLLBACK_MESSAGE;
 		}
 		

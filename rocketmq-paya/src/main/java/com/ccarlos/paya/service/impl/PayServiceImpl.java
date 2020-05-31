@@ -78,6 +78,22 @@ public class PayServiceImpl implements PayService {
 				params.put("newBalance", newBalance);
 				params.put("currentVersion", currentVersion);
 
+				//	同步阻塞
+				CountDownLatch countDownLatch = new CountDownLatch(1);
+				params.put("currentCountDown", countDownLatch);
+				//	消息发送并且 本地的事务执行
+				TransactionSendResult sendResult = transactionProducer.sendMessage(message, params);
+
+				countDownLatch.await();
+
+				if(sendResult.getSendStatus() == SendStatus.SEND_OK
+						&& sendResult.getLocalTransactionState() == LocalTransactionState.COMMIT_MESSAGE) {
+					//	回调order通知支付成功消息
+					callbackService.sendOKMessage(orderId, userId);
+					paymentRet = "支付成功!";
+				} else {
+					paymentRet = "支付失败!";
+				}
 			} else {
 				paymentRet = "余额不足!";
 			}
