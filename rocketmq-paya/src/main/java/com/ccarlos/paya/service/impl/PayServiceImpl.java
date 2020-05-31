@@ -30,9 +30,9 @@ public class PayServiceImpl implements PayService {
 	@Autowired
 	private CustomerAccountMapper customerAccountMapper;
 
+
 	@Autowired
 	private TransactionProducer transactionProducer;
-
 	@Autowired
 	private CallbackService callbackService;
 
@@ -60,7 +60,7 @@ public class PayServiceImpl implements PayService {
 
 			//加锁结束（释放）
 
-			if(newBalance.doubleValue() > 0 ) {    //	或者一种情况获取锁失败
+			if(newBalance.doubleValue() > 0 ) {	//	或者一种情况获取锁失败
 				//	1.组装消息
 				//  1.执行本地事务
 				String keys = UUID.randomUUID().toString() + "$" + System.currentTimeMillis();
@@ -68,11 +68,16 @@ public class PayServiceImpl implements PayService {
 				params.put("userId", userId);
 				params.put("orderId", orderId);
 				params.put("accountId", accountId);
-				params.put("money", money);    //100
+				params.put("money", money);	//100
 
 				Message message = new Message
 						(TX_PAY_TOPIC, TX_PAY_TAGS, keys,
 								FastJsonConvertUtil.convertObjectToJSON(params).getBytes());
+				//	可能需要用到的参数
+				params.put("payMoney", payMoney);
+				params.put("newBalance", newBalance);
+				params.put("currentVersion", currentVersion);
+
 
 			}
 		} catch (Exception e) {

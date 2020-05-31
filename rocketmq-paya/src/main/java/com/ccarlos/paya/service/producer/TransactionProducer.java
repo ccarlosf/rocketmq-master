@@ -18,27 +18,28 @@ import org.springframework.stereotype.Component;
 public class TransactionProducer implements InitializingBean {
 
 	private TransactionMQProducer producer;
-	
+
 	private ExecutorService executorService;
-	
+
 	@Autowired
 	private TransactionListenerImpl transactionListenerImpl;
-	
-	private static final String NAMESERVER = "192.168.11.121:9876;192.168.11.122:9876;192.168.11.123:9876;192.168.11.124:9876";
-	
+
+	private static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+
 	private static final String PRODUCER_GROUP_NAME = "tx_pay_producer_group_name";
-	
+
 	private TransactionProducer() {
 		this.producer = new TransactionMQProducer(PRODUCER_GROUP_NAME);
-		this.executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS,
+		this.executorService = new ThreadPoolExecutor(2, 5,
+				100, TimeUnit.SECONDS,
 				new ArrayBlockingQueue<Runnable>(2000), new ThreadFactory() {
-					@Override
-					public Thread newThread(Runnable r) {
-						Thread thread = new Thread(r);
-						thread.setName(PRODUCER_GROUP_NAME + "-check-thread");
-						return thread;
-					}
-				});
+			@Override
+			public Thread newThread(Runnable r) {
+				Thread thread = new Thread(r);
+				thread.setName(PRODUCER_GROUP_NAME + "-check-thread");
+				return thread;
+			}
+		});
 		this.producer.setExecutorService(executorService);
 		this.producer.setNamesrvAddr(NAMESERVER);
 	}
@@ -70,15 +71,4 @@ public class TransactionProducer implements InitializingBean {
 		}
 		return sendResult;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
