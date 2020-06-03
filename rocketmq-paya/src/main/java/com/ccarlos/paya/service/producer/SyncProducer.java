@@ -13,7 +13,10 @@ public class SyncProducer {
 
 	private DefaultMQProducer producer;
 	
-	private static final String NAMESERVER = "192.168.11.121:9876;192.168.11.122:9876;192.168.11.123:9876;192.168.11.124:9876";
+//	private static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+
+	private static final String NAMESERVER = "127.0.0.1:9876";
+
 
 	private static final String PRODUCER_GROUP_NAME = "callback_pay_producer_group_name";
 	

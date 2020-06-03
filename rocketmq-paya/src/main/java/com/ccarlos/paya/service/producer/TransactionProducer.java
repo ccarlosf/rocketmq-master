@@ -24,7 +24,10 @@ public class TransactionProducer implements InitializingBean {
 	@Autowired
 	private TransactionListenerImpl transactionListenerImpl;
 
-	private static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+//	private static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+
+	private static final String NAMESERVER = "127.0.0.1:9876";
+
 
 	private static final String PRODUCER_GROUP_NAME = "tx_pay_producer_group_name";
 

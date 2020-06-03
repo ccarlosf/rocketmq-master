@@ -15,25 +15,29 @@ import com.ccarlos.paya.utils.FastJsonConvertUtil;
 public class CallbackService {
 
 	public static final String CALLBACK_PAY_TOPIC = "callback_pay_topic";
-	
+
 	public static final String CALLBACK_PAY_TAGS = "callback_pay";
-	
-	public static final String NAMESERVER = "192.168.11.121:9876;192.168.11.122:9876;192.168.11.123:9876;192.168.11.124:9876";
-	
+
+//	public static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+
+	public static final String NAMESERVER = "127.0.0.1:9876";
+
+
 	@Autowired
 	private SyncProducer syncProducer;
-	
+
 	public void sendOKMessage(String orderId, String userId) {
-		
+
 		Map<String, Object> params = new HashMap<>();
 		params.put("userId", userId);
 		params.put("orderId", orderId);
-		params.put("status", "2");	//ok
-		
+		params.put("status", "2");    //ok
+
 		String keys = UUID.randomUUID().toString() + "$" + System.currentTimeMillis();
-		Message message = new Message(CALLBACK_PAY_TOPIC, CALLBACK_PAY_TAGS, keys, FastJsonConvertUtil.convertObjectToJSON(params).getBytes());
-		
-		SendResult ret = syncProducer.sendMessage(message);	
+		Message message = new Message(CALLBACK_PAY_TOPIC, CALLBACK_PAY_TAGS, keys,
+				FastJsonConvertUtil.convertObjectToJSON(params).getBytes());
+
+		SendResult ret = syncProducer.sendMessage(message);
 	}
 	
 
