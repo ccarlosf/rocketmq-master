@@ -17,7 +17,9 @@ public class OrderlyProducer {
 
 	private DefaultMQProducer producer;
 	
-	public static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+//	public static final String NAMESERVER = "192.168.253.136:9876;192.168.253.137:9876";
+
+	public static final String NAMESERVER = "127.0.0.1:9876";
 	
 	public static final String PRODUCER_GROUP_NAME = "orderly_producer_group_name"; 
 	

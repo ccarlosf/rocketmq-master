@@ -26,8 +26,10 @@ public class PkgOrderlyConsumer {
 	
 	public static final String PKG_TAGS = "pkg";
 	
-	public static final String NAMESERVER = "192.168.11.121:9876;192.168.11.122:9876;192.168.11.123:9876;192.168.11.124:9876";
-	
+//	public static final String NAMESERVER = "192.168.11.121:9876;192.168.11.122:9876;192.168.11.123:9876;192.168.11.124:9876";
+
+	public static final String NAMESERVER = "127.0.0.1:9876";
+
 	public static final String CONSUMER_GROUP_NAME = "orderly_consumer_group_name"; 
 	
 	

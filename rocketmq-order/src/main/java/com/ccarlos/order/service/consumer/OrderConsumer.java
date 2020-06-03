@@ -77,6 +77,9 @@ public class OrderConsumer {
 				if (status.equals(OrderStatus.ORDER_PAYED.getValue())) {
 					int count = orderMapper.updateOrderStatus
 							(orderId, status, "admin", currentTime);
+					if (count == 1) {
+						orderService.sendOrderlyMessage4Pkg(userId, orderId);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
